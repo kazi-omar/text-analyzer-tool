@@ -38,7 +38,8 @@
       "@repositories/*": ["src/repositories/*"],
       "@config/*": ["src/config/*"],
       "@errors/*": ["src/errors/*"],
-      "@middleware/*": ["src/middleware/*"]
+      "@middleware/*": ["src/middleware/*"],
+      "@routes/*": ["src/routes/*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */

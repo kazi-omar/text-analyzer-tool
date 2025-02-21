@@ -1,5 +1,7 @@
 import { UserRepository } from "@repositories/UserRepository";
 import { User } from "@models/User";
+import BadRequestError from "@errors/http400Error";
+import { VALIDATIONMESSAGES } from "@utils/constants";
 
 export class UserService {
     private userRepository: UserRepository;
@@ -9,9 +11,13 @@ export class UserService {
     }
 
     async createUser(name: string, email: string): Promise<User> {
+        if (!name || !email) {
+            throw new BadRequestError(VALIDATIONMESSAGES.NAME_AND_EMAIL_REQUIRED);
+        }
+
         const existingUser = await this.userRepository.findByEmail(email);
         if (existingUser) {
-            throw new Error(`User with email ${email} already exists`);
+            throw new BadRequestError(VALIDATIONMESSAGES.USER_ALREADY_EXISTS(email));
         }
 
         const user = new User();
