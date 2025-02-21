@@ -9,6 +9,9 @@ export class UserRepository {
         this.repository = AppDataSource.getRepository(User);
     }
 
+    async findById(id: string): Promise<User | null> {
+        return await this.repository.findOne({ where: { id } });
+    }
     async findByEmail(email: string): Promise<User | null> {
         return await this.repository.findOne({ where: { email } });
     }
