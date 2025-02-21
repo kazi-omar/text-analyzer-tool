@@ -30,11 +30,15 @@ export const VALIDATIONMESSAGES = {
 };
 
 export const ErrorName = {
-    BAD_REQUEST: "BadRequestError",
-    UNAUTHORIZED: "UnauthorizedError",
-    NOT_FOUND: "NotFoundError",
-    UNPROCESSABLE_ENTITY: "UnprocessableEntityError",
-    INTERNAL_SERVER_ERROR: "InternalServerError",
-    BAD_GATEWAY: "BadGatewayError",
-    UNKNOWN_ERROR: "An unknown error occurred"
+    BAD_REQUEST: "Bad Request",
+    UNAUTHORIZED: "Unauthorized Access",
+    FORBIDDEN: "Forbidden",
+    NOT_FOUND: "Resource Not Found",
+    CONFLICT: "Conflict Detected",
+    UNPROCESSABLE_ENTITY: "Invalid Request Data",
+    INTERNAL_SERVER_ERROR: "Server Error",
+    BAD_GATEWAY: "Bad Gateway",
+    SERVICE_UNAVAILABLE: "Service Unavailable",
+    UNKNOWN_ERROR: "Something went wrong"
 };
+

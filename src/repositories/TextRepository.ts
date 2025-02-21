@@ -10,7 +10,7 @@ export class TextRepository {
     }
 
     async findById(id: string): Promise<Text | null> {
-        return await this.repository.findOne({ where: { id } });
+        return await this.repository.findOne({ where: { id }, relations: ["user"] });
     }
 
     async save(text: Text): Promise<Text> {

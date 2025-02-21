@@ -10,7 +10,7 @@ export class TextAnalysisRepository {
     }
 
     async findByTextId(textId: string): Promise<TextAnalysis | null> {
-        return await this.repository.findOne({ where: { text: { id: textId } } });
+        return await this.repository.findOne({ where: { text: { id: textId } }, relations: ["text", "text.user"] });
     }
 
     async save(textAnalysis: TextAnalysis): Promise<TextAnalysis> {

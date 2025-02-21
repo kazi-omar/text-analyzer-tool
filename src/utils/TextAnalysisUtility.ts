@@ -1,6 +1,6 @@
 export class TextAnalysisUtility {
     static getWordCount(text: string): number {
-        return text.split(/\s+/).filter(word => word.length > 0).length;
+        return text.toLowerCase().match(/\b[a-z]+\b/g)?.length || 0;
     }
 
     static getCharCount(text: string): number {
@@ -16,8 +16,8 @@ export class TextAnalysisUtility {
     }
 
     static getLongestWords(text: string): string[] {
-        const words = text.split(/\s+/).filter(word => word.length > 0);
-        const maxLength = Math.max(...words.map(word => word.length));
+        const words = text.toLowerCase().match(/\b[a-z]+\b/g) || [];
+        const maxLength = Math.max(...words.map(word => word.length), 0);
         return words.filter(word => word.length === maxLength);
     }
 }
