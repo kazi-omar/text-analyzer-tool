@@ -1,7 +1,8 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import "reflect-metadata";
-import { connectDatabase } from "./config/database";
+import { connectDatabase } from "@config/database";
+import { MESSAGES } from "@utils/constants";
 
 dotenv.config();
 
@@ -14,5 +15,5 @@ app.get("/", (req: Request, res: Response) => {
 
 app.listen(port, async () => {
     await connectDatabase();
-    console.log(`[server]: Server is running at http://localhost:${port}`);
+    console.log(MESSAGES.SERVER_RUNNING(port));
 });

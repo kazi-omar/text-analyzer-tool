@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
-import { User } from "./User";
-import { TextAnalysis } from "./TextAnalysis";
-import { SharedProp } from "../helpers/SharedProp";
+import { User } from "@models/User";
+import { TextAnalysis } from "@models/TextAnalysis";
+import { SharedProp } from "@helpers/SharedProp";
 
 @Entity()
 export class Text extends SharedProp {

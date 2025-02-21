@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Text } from "./Text";
+import { Text } from "@models/Text";
 
 @Entity()
 export class User {
@@ -9,7 +9,7 @@ export class User {
     @Column()
     name: string;
 
-    @Column()
+    @Column({ unique: true })
     email: string;
 
     @OneToMany(() => Text, text => text.user)

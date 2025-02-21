@@ -1,6 +1,7 @@
 import { DataSource } from "typeorm";
 import * as path from "path";
 import dotenv from "dotenv";
+import { MESSAGES } from "@utils/constants";
 
 dotenv.config();
 
@@ -21,9 +22,9 @@ export const AppDataSource = new DataSource({
 export const connectDatabase = async () => {
     try {
         await AppDataSource.initialize();
-        console.log("Database connected successfully");
+        console.log(MESSAGES.DATABASE_CONNECTED);
     } catch (error) {
-        console.error("Database connection failed:", error);
+        console.error(MESSAGES.DATABASE_CONNECTION_FAILED, error);
         process.exit(1);
     }
 };
