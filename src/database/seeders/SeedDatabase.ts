@@ -3,6 +3,7 @@ import { UserService } from "@services/UserService";
 import { Text } from "@models/Text";
 import { TextAnalysis } from "@models/TextAnalysis";
 import { MESSAGES } from "@utils/constants";
+import {TextAnalysisUtility} from "@utils/TextAnalysisUtility";
 
 const seedDatabase = async () => {
     await AppDataSource.initialize();
@@ -17,15 +18,15 @@ const seedDatabase = async () => {
         const text = new Text();
         text.user = user;
         text.text_content = "This is a sample text for analysis.";
-        await textRepository.save(text);
+        const savedText = await textRepository.save(text);
 
         const textAnalysis = new TextAnalysis();
-        textAnalysis.text = text;
-        textAnalysis.word_count = 7;
-        textAnalysis.char_count = 34;
-        textAnalysis.sentence_count = 1;
-        textAnalysis.paragraph_count = 1;
-        textAnalysis.longest_word = "analysis";
+        textAnalysis.text = savedText;
+        textAnalysis.word_count = TextAnalysisUtility.getWordCount(text.text_content);
+        textAnalysis.char_count = TextAnalysisUtility.getCharCount(text.text_content);
+        textAnalysis.sentence_count = TextAnalysisUtility.getSentenceCount(text.text_content);
+        textAnalysis.paragraph_count = TextAnalysisUtility.getParagraphCount(text.text_content);
+        textAnalysis.longest_words = TextAnalysisUtility.getLongestWords(text.text_content);
         await textAnalysisRepository.save(textAnalysis);
 
         console.log(MESSAGES.DATABASE_SEEDED_SUCCESSFULLY);

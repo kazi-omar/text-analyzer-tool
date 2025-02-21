@@ -22,6 +22,6 @@ export class TextAnalysis extends SharedProp {
     @Column("int")
     paragraph_count: number;
 
-    @Column("varchar", { length: 255 })
-    longest_word: string;
+    @Column("simple-array")
+    longest_words: string[];
 }

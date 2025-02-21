@@ -4,14 +4,19 @@ import { Text } from "@models/Text";
 import BadRequestError from "@errors/http400Error";
 import NotFoundError from "@errors/http404Error";
 import { MESSAGES, VALIDATIONMESSAGES } from "@utils/constants";
+import {TextAnalysisRepository} from "@repositories/TextAnalysisRepository";
+import {TextAnalysis} from "@models/TextAnalysis";
+import {TextAnalysisUtility} from "@utils/TextAnalysisUtility";
 
 export class TextService {
     private textRepository: TextRepository;
     private userRepository: UserRepository;
+    private textAnalysisRepository: TextAnalysisRepository;
 
     constructor() {
         this.textRepository = new TextRepository();
         this.userRepository = new UserRepository();
+        this.textAnalysisRepository = new TextAnalysisRepository();
     }
 
     async createText(content: string, userId: string): Promise<Text> {
@@ -32,7 +37,19 @@ export class TextService {
         text.text_content = content;
         text.user = user;
 
-        return await this.textRepository.save(text);
+        const savedText = await this.textRepository.save(text);
+
+        const textAnalysis = new TextAnalysis();
+        textAnalysis.text = savedText;
+        textAnalysis.word_count = TextAnalysisUtility.getWordCount(content);
+        textAnalysis.char_count = TextAnalysisUtility.getCharCount(content);
+        textAnalysis.sentence_count = TextAnalysisUtility.getSentenceCount(content);
+        textAnalysis.paragraph_count = TextAnalysisUtility.getParagraphCount(content);
+        textAnalysis.longest_words = TextAnalysisUtility.getLongestWords(content);
+
+        await this.textAnalysisRepository.save(textAnalysis);
+
+        return savedText;
     }
 
     async getText(id: string): Promise<Text> {
