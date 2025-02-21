@@ -5,3 +5,12 @@ export const MESSAGES = {
     ERROR_SEEDING_DATABASE: "Error seeding database:",
     SERVER_RUNNING: (port: number | string) => `Server is running at http://localhost:${port}`
 };
+
+export const ErrorName = {
+    BAD_REQUEST: "BadRequestError",
+    UNAUTHORIZED: "UnauthorizedError",
+    NOT_FOUND: "NotFoundError",
+    UNPROCESSABLE_ENTITY: "UnprocessableEntityError",
+    INTERNAL_SERVER_ERROR: "InternalServerError",
+    BAD_GATEWAY: "BadGatewayError"
+};
