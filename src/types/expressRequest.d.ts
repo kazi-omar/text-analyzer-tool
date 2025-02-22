@@ -6,6 +6,7 @@ declare global {
                 name: string;
                 email: string;
             };
+            session: session.Session & Partial<session.SessionData>;
         }
     }
 }
