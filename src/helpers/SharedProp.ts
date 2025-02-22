@@ -2,8 +2,8 @@ import { UpdateDateColumn, CreateDateColumn } from "typeorm";
 
 export class SharedProp {
     @CreateDateColumn({ type: "timestamp" })
-    createdDt: Date;
+    createdAt: Date;
 
     @UpdateDateColumn({ type: "timestamp" })
-    updateDt: Date;
+    updatedAt: Date;
 }

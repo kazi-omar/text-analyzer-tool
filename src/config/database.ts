@@ -5,6 +5,8 @@ import { MESSAGES } from "@utils/constants";
 
 dotenv.config();
 
+const isProduction = process.env.NODE_ENV === "production";
+
 export const AppDataSource = new DataSource({
     type: "mysql",
     host: process.env.DB_HOST,
@@ -14,9 +16,21 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME,
     synchronize: true,
     logging: false,
-    entities: [path.join(__dirname, "../models/**/*.ts")],
-    migrations: [path.join(__dirname, "../database/migration/**/*.ts")],
-    subscribers: [path.join(__dirname, "../subscriber/**/*.ts")],
+    entities: [
+        isProduction
+            ? path.join(__dirname, "../../dist/models/**/*.js")
+            : path.join(__dirname, "../models/**/*.ts")
+    ],
+    migrations: [
+        isProduction
+            ? path.join(__dirname, "../../dist/database/migration/**/*.js")
+            : path.join(__dirname, "../database/migration/**/*.ts")
+    ],
+    subscribers: [
+        isProduction
+            ? path.join(__dirname, "../../dist/subscriber/**/*.js")
+            : path.join(__dirname, "../subscriber/**/*.ts")
+    ],
 });
 
 export const connectDatabase = async () => {

@@ -20,4 +20,8 @@ export class TextRepository {
     async delete(id: string): Promise<void> {
         await this.repository.delete(id);
     }
+
+    async findByUserId(userId: string): Promise<Text[]> {
+        return await this.repository.find({ where: { user: { id: userId } }, relations: ["analyses"], order: { createdAt: "DESC" } });
+    }
 }

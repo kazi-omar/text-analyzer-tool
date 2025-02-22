@@ -84,4 +84,8 @@ export class TextService {
 
         await this.textRepository.delete(id);
     }
+
+    async getTextsByUserId(userId: string): Promise<Text[]> {
+        return await this.textRepository.findByUserId(userId);
+    }
 }

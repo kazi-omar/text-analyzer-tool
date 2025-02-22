@@ -8,17 +8,22 @@ import NotFoundError from "@errors/http404Error";
 import errorHandler from "@middleware/errorHandler";
 import setContentType from "@middleware/setContentType";
 import setupSwaggerDocs from "@config/swagger";
+import path from "path";
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+app.use(express.static(path.join(__dirname, "../public")));
+
 app.use(express.json());
 
 setupSwaggerDocs(app);
 
-app.use(setContentType);
 app.use("/api", routes);
 
 app.get("/", (req: Request, res: Response) => {

@@ -1,23 +1,23 @@
 version: '3.9'
 
 services:
-#  app:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    image: text-analyzer-tool
-#    container_name: text-analyzer-tool
-#    ports:
-#      - "${PORT}:${PORT}"
-#    environment:
-#      - PORT=${PORT}
-#      - DB_HOST=db
-#      - DB_PORT=${DB_PORT}
-#      - DB_USER_NAME=${DB_USER_NAME}
-#      - DB_PASSWORD=${DB_PASSWORD}
-#      - DB_NAME=${DB_NAME}
-#    depends_on:
-#      - db
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: text-analyzer-tool
+    container_name: text-analyzer-tool
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      - PORT=${PORT}
+      - DB_HOST=db
+      - DB_PORT=${DB_PORT}
+      - DB_USER_NAME=${DB_USER_NAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      - db
 
   db:
     image: mysql:8.2.0
