@@ -16,8 +16,13 @@ services:
       - DB_USER_NAME=${DB_USER_NAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
+      - KEYCLOAK_URL=http://keycloak:8080
+      - KEYCLOAK_REALM=myrealm
+      - KEYCLOAK_CLIENT_ID=my-express-app
+      - KEYCLOAK_CLIENT_SECRET=my-client-secret
     depends_on:
       - db
+      - keycloak
 
   db:
     image: mysql:8.2.0
@@ -33,6 +38,25 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d  # Mount init scripts
+
+  keycloak:
+    image: keycloak/keycloak:latest
+    container_name: keycloak
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: mysql
+      KC_DB_URL: jdbc:mysql://db:3306/keycloak  # Fixed the database URL
+      KC_DB_USERNAME: ${DB_USER_NAME}
+      KC_DB_PASSWORD: ${DB_PASSWORD}
+      KC_HOSTNAME: localhost
+    command: start-dev
+    depends_on:
+      - db
 
 volumes:
   db_data:

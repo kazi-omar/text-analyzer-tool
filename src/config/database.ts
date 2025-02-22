@@ -6,6 +6,8 @@ import { MESSAGES } from "@utils/constants";
 dotenv.config();
 
 const isProduction = process.env.NODE_ENV === "production";
+const MAX_RETRIES = 10;  // Max retry attempts
+const RETRY_DELAY = 10000;
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -34,11 +36,23 @@ export const AppDataSource = new DataSource({
 });
 
 export const connectDatabase = async () => {
-    try {
-        await AppDataSource.initialize();
-        console.log(MESSAGES.DATABASE_CONNECTED);
-    } catch (error) {
-        console.error(MESSAGES.DATABASE_CONNECTION_FAILED, error);
-        process.exit(1);
+    let attempt = 0;
+    while (attempt < MAX_RETRIES) {
+        try {
+            await AppDataSource.initialize();
+            console.log(MESSAGES.DATABASE_CONNECTED);
+            return;
+        } catch (error) {
+            attempt++;
+            console.error(`${MESSAGES.DATABASE_CONNECTION_FAILED}, Attempt: ${attempt}`, error);
+
+            if (attempt < MAX_RETRIES) {
+                console.log(`Retrying in ${RETRY_DELAY / 1000} seconds...`);
+                await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+            } else {
+                console.error(`Max retry attempts reached. Could not connect to the database.`);
+                process.exit(1);
+            }
+        }
     }
 };
