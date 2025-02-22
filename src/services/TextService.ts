@@ -76,6 +76,12 @@ export class TextService {
             throw new NotFoundError(VALIDATIONMESSAGES.TEXT_NOT_FOUND);
         }
 
+        // Delete associated TextAnalysis entities
+        const textAnalysis = await this.textAnalysisRepository.findByTextId(id);
+        if (textAnalysis) {
+            await this.textAnalysisRepository.delete(textAnalysis.id);
+        }
+
         await this.textRepository.delete(id);
     }
 }

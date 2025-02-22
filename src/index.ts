@@ -7,6 +7,7 @@ import { MESSAGES } from "@utils/constants";
 import NotFoundError from "@errors/http404Error";
 import errorHandler from "@middleware/errorHandler";
 import setContentType from "@middleware/setContentType";
+import setupSwaggerDocs from "@config/swagger";
 
 dotenv.config();
 
@@ -14,8 +15,10 @@ const app: Express = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(setContentType);
 
+setupSwaggerDocs(app);
+
+app.use(setContentType);
 app.use("/api", routes);
 
 app.get("/", (req: Request, res: Response) => {

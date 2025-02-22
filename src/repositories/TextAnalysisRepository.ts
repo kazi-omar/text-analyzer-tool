@@ -16,4 +16,8 @@ export class TextAnalysisRepository {
     async save(textAnalysis: TextAnalysis): Promise<TextAnalysis> {
         return await this.repository.save(textAnalysis);
     }
+
+    async delete(id: string): Promise<void> {
+        await this.repository.delete(id);
+    }
 }
