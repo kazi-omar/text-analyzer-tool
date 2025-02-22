@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>User Analysis Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .summary {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .summary div {
+            text-align: center;
+        }
+
+        .texts {
+            margin-top: 20px;
+        }
+
+        .text-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #fafafa;
+        }
+
+        .text-item h3 {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>User Analysis Report</h1>
+    <div class="summary">
+        <div>
+            <h2>Total Sentences</h2>
+            <p><%= totalSentences %></p>
+        </div>
+        <div>
+            <h2>Total Paragraphs</h2>
+            <p><%= totalParagraphs %></p>
+        </div>
+        <div>
+            <h2>Total Words</h2>
+            <p><%= totalWords %></p>
+        </div>
+        <div>
+            <h2>Total Characters</h2>
+            <p><%= totalChars %></p>
+        </div>
+    </div>
+    <div class="texts">
+        <% texts.forEach(text => { %>
+            <div class="text-item">
+                <h3>Text Content</h3>
+                <p><%= text.text_content %></p>
+                <p><small>Created At: <%= text.createdAt %></small></p>
+            </div>
+        <% }) %>
+    </div>
+</div>
+</body>
+</html>
