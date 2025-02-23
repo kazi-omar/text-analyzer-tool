@@ -1,17 +1,32 @@
 import { Request, Response, NextFunction } from "express";
+import { keycloak } from "@config/keycloak";
+import { UserRepository } from "@repositories/UserRepository";
 import HttpStatus from "@utils/httpStatus";
-import {ErrorName} from "@utils/constants";
+import { ErrorName } from "@utils/constants";
 
-const authenticationMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    // Dummy authentication logic
-    const isAuthenticated = true; // This should be replaced with actual authentication logic
+const userRepository = new UserRepository();
 
-    if (isAuthenticated) {
-        req.user = { id: "4958ec63-7c95-4cb8-a0f3-fedc26222252", name: "John Doe", email: "john.doe@example.com" };
+const authenticationMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+    keycloak.protect()(req, res, async (err) => {
+        if (err) {
+            return res.status(HttpStatus.UNAUTHORIZED).json({ success: false, message: ErrorName.UNAUTHORIZED });
+        }
+
+        const token = req.kauth?.grant?.access_token;
+        if (!token) {
+            return res.status(HttpStatus.UNAUTHORIZED).json({ success: false, message: ErrorName.UNAUTHORIZED });
+        }
+
+        const { sub, preferred_username, email } = token.content;
+
+        let user = await userRepository.findById(sub);
+        if (!user) {
+            user = await userRepository.save({ id: sub, name: preferred_username, email, texts: [] });
+        }
+
+        req.user = user;
         next();
-    } else {
-        res.status(HttpStatus.UNAUTHORIZED).send({ success: false, message: ErrorName.UNAUTHORIZED});
-    }
+    });
 };
 
 export default authenticationMiddleware;
